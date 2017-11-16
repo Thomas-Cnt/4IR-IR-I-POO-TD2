@@ -33,7 +33,7 @@ public class Tests {
 
 	@Test
 	public void isValidShippingCost() {
-		final double result = PackageFactory.createPackage(height, width, depth, weight, dest).calculateLocalShippingCost();
+		final double result = PackageFactory.createPackage(height, width, depth, weight, dest).calculateShippingCost();
 		assertThat(result).isEqualTo(Double.parseDouble(cost));
 	}
 
@@ -53,7 +53,15 @@ public class Tests {
 
 			{ 653, 133, 271, 2.132d, "MC", "50.10" },
 
-			{ 653, 331, 271, 3.650d, "MC", "91.05" }
+			{ 653, 331, 271, 3.650d, "MC", "91.05" },
+
+			{ 191, 123, 18,	2.354d,	"DOM_TOM", "13.91" },
+
+			{ 253, 215, 164, 1.565d, "DOM_TOM", "33.29" },
+
+			{ 653, 133, 271, 2.132d, "DOM_TOM", "49.84" },
+
+			{ 653, 331, 271, 3.650d, "DOM_TOM", "89.54" }
 
 	};
 
