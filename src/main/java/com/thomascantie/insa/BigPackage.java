@@ -5,15 +5,17 @@ import java.math.BigDecimal;
 import static com.thomascantie.insa.Destination.MC;
 
 public class BigPackage extends Package {
-
+	
+	public static final double UNIT_WEIGHT_COST = 21.62;
+	public static final double UNIT_VOLUME_COST = 1.43;
 
 	private double weightFlatRate;
 	private double volumeFlatRate;
 
 	public BigPackage(int height, int width, int depth, double weight, Destination dest) {
 		super(height, width, depth, weight, dest);
-		this.weightFlatRate = 21.62 * weight;
-		this.volumeFlatRate = 1.43 * height * width * depth / Math.pow(100.0, 3);
+		this.weightFlatRate = UNIT_WEIGHT_COST * weight;
+		this.volumeFlatRate = UNIT_VOLUME_COST * height * width * depth / Math.pow(100.0, 3);
 	}
 
 	@Override
