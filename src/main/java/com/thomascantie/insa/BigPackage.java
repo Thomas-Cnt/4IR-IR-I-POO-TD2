@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import static com.thomascantie.insa.Destination.MC;
 
 public class BigPackage extends Package {
-	
+
 	public static final double UNIT_WEIGHT_COST = 21.62;
 	public static final double UNIT_VOLUME_COST = 1.43;
 
@@ -19,15 +19,10 @@ public class BigPackage extends Package {
 	}
 
 	@Override
-	public double calculateLocalShippingCost() {
-		BigDecimal cost = BigDecimal.ZERO;
-
-		cost = cost.add(new BigDecimal(Math.max(this.weightFlatRate, this.volumeFlatRate)));
-
-		if (this.hasDestination(MC))
-			cost = this.getIcreasedCostForMC(cost);
-
-		return cost.setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
+	protected double calculateLocalShippingCost() {
+		return new BigDecimal(Math.max(this.weightFlatRate, this.volumeFlatRate))
+				.setScale(2, BigDecimal.ROUND_HALF_EVEN)
+				.doubleValue();
 	}
 
 }

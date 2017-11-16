@@ -1,8 +1,7 @@
 package com.thomascantie.insa;
 
-import java.math.BigDecimal;
 
-import static com.thomascantie.insa.Destination.MC;
+import java.math.BigDecimal;
 
 public class SmallPackage extends Package {
 
@@ -13,14 +12,7 @@ public class SmallPackage extends Package {
 	}
 
 	@Override
-	public double calculateLocalShippingCost() {
-		BigDecimal cost = BigDecimal.ZERO;
-
-		cost = cost.add(new BigDecimal(BASIC_COST));
-
-		if (this.hasDestination(MC))
-			cost = this.getIcreasedCostForMC(cost);
-
-		return cost.setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
+	protected double calculateLocalShippingCost() {
+		return BASIC_COST;
 	}
 }

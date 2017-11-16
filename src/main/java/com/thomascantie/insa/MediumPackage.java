@@ -17,15 +17,8 @@ public class MediumPackage extends Package {
 	}
 
 	@Override
-	public double calculateLocalShippingCost() {
-		BigDecimal cost = BigDecimal.ZERO;
-
-		cost = cost.add(new BigDecimal(this.weightFlatRate + FIXED_COSTS));
-
-		if (this.hasDestination(MC))
-			cost = this.getIcreasedCostForMC(cost);
-
-		return cost.setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
+	protected double calculateLocalShippingCost() {
+		return this.weightFlatRate + FIXED_COSTS;
 	}
 
 }
