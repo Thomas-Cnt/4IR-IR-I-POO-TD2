@@ -45,8 +45,4 @@ public abstract class Package {
 		return BigDecimal.ZERO;
 	}
 
-	public boolean hasDestination(Destination dest) {
-		return this.dest == dest;
-	}
-
 }
