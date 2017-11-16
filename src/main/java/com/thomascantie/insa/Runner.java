@@ -5,6 +5,12 @@ import java.util.Scanner;
 
 public class Runner {
 
+	private PackageFactory factory;
+
+	public Runner(PackageFactory factory) {
+		this.factory = factory;
+	}
+
 	public void run() {
 
 		Scanner sc = new Scanner(System.in);
@@ -25,25 +31,36 @@ public class Runner {
 				case "yes":
 
 					String check;
-					Package pack;
+					Package pack = null;
+					boolean quit = false;
 
 					do {
 
-						System.out.println("\nPlease fill in the information of your package.\n");
+						System.out.println("\nPlease fill in the information of your package. Enter \"quit\" to abord the execution.\n");
 
 						String destination;
 						do {
 							System.out.print("- destination ( FR | MC | DOM/TOM ) : ");
 							destination = sc.nextLine().toUpperCase().trim();
-						} while (!destination.matches("(FR)|(MC)|(DOM/TOM)"));
+						} while (!destination.matches("(QUIT)|(FR)|(MC)|(DOM/TOM)"));
 
 						destination = destination.replace('/', '_');
+
+						if (destination.equals("QUIT")) {
+							quit = true;
+							break;
+						}
 
 						String sHeight;
 						do {
 							System.out.print("- height (in millimeters) : ");
 							sHeight = sc.nextLine().toLowerCase().trim();
-						} while (!sHeight.matches("[0-9]+"));
+						} while (!sHeight.matches("(quit)|[0-9]+"));
+
+						if (sHeight.equals("quit")) {
+							quit = true;
+							break;
+						}
 
 						int height = Integer.parseInt(sHeight);
 
@@ -51,7 +68,12 @@ public class Runner {
 						do {
 							System.out.print("- width (in millimeters) : ");
 							sWidth = sc.nextLine().toLowerCase().trim();
-						} while (!sWidth.matches("[0-9]+"));
+						} while (!sWidth.matches("(quit)|[0-9]+"));
+
+						if (sWidth.equals("quit")) {
+							quit = true;
+							break;
+						}
 
 						int width = Integer.parseInt(sWidth);
 
@@ -59,7 +81,12 @@ public class Runner {
 						do {
 							System.out.print("- depth (in millimeters) : ");
 							sDepth = sc.nextLine().toLowerCase().trim();
-						} while (!sDepth.matches("[0-9]+"));
+						} while (!sDepth.matches("(quit)|[0-9]+"));
+
+						if (sDepth.equals("quit")) {
+							quit = true;
+							break;
+						}
 
 						int depth = Integer.parseInt(sDepth);
 
@@ -67,17 +94,25 @@ public class Runner {
 						do {
 							System.out.print("- weight (in kilograms) : ");
 							sWeight = sc.nextLine().toLowerCase().trim();
-						} while (!sWeight.matches("[0-9]+(.[0-9]+)?"));
+						} while (!sWeight.matches("(quit)|[0-9]+(.[0-9]+)?"));
+
+						if (sWeight.equals("quit")) {
+							quit = true;
+							break;
+						}
 
 						double weight = Double.parseDouble(sWeight);
 
-						pack = PackageFactory.createPackage(height, width, depth, weight, destination);
+						pack = this.factory.createPackage(height, width, depth, weight, destination);
 						System.out.println("\nLet's check those information.");
 						System.out.println(pack);
 						System.out.print("\nAre those information correct ? (yes/no) : ");
 						check = sc.nextLine().toLowerCase().trim();
 
 					} while(!check.equals("yes"));
+
+					if (quit)
+						break;
 
 					System.out.print("\nComputing");
 					for (int i = 0; i < 3; i++) {
@@ -91,7 +126,7 @@ public class Runner {
 
 					BigDecimal shippingCost = new BigDecimal(pack.calculateShippingCost()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 
-					System.out.printf("\nFor shipping this package, the shipping costs amount %f €\n", shippingCost.doubleValue());
+					System.out.printf("\nFor shipping this package, the shipping costs amount %.2f €\n", shippingCost.doubleValue());
 
 					break;
 				case "no":
