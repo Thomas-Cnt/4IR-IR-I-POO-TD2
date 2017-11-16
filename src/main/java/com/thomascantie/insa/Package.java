@@ -45,4 +45,8 @@ public abstract class Package {
 		return BigDecimal.ZERO;
 	}
 
+	@Override
+	public String toString() {
+		return "Package of " + this.weight + " kg to " + this.dest + " ( " + this.height + "mm X " + this.width + "mm X " + this.depth + "mm )";
+	}
 }
