@@ -13,7 +13,7 @@ import static com.thomascantie.insa.Destination.MC;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class Tests {
+public class TestShippingCost {
 
 	private final int height;
 	private final int width;
@@ -22,7 +22,7 @@ public class Tests {
 	private final String dest;
 	private final String cost;
 
-	public Tests(final int height, final int width, final int depth, final double weight, final String dest, final String cost) {
+	public TestShippingCost(final int height, final int width, final int depth, final double weight, final String dest, final String cost) {
 		this.height = height;
 		this.width = width;
 		this.depth = depth;
