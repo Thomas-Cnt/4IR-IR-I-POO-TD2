@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 
 import static com.thomascantie.insa.Destination.MC;
 
-public class Package {
+public abstract class Package {
+
+	private static final double PERCENTAGE_INCREASE = 0.087;
 
 	private int height;
 	private int width;
@@ -20,22 +22,14 @@ public class Package {
 		this.dest = dest;
 	}
 
-	public double calculateLocalShippingCost() {
-		BigDecimal cost = BigDecimal.ZERO;
+	public abstract double calculateLocalShippingCost();
 
-		if ( (height <= 229 && width <= 162) || (width <= 229 && height <= 162) && depth <= 25)
-			cost = cost.add(new BigDecimal(12.00));
+	public BigDecimal getIcreasedCostForMC(BigDecimal cost) {
+		return cost.add(new BigDecimal(PERCENTAGE_INCREASE * cost.doubleValue()));
+	}
 
-		else if (weight <= 1.8)
-			cost = cost.add(new BigDecimal(17.59 * this.weight + 2.86));
-
-		else
-			cost = cost.add(new BigDecimal(Math.max(21.62 * weight, 1.43 * height * width * depth / Math.pow(100.0, 3))));
-
-		if (this.dest == MC)
-			cost = cost.add(new BigDecimal(0.087 * cost.doubleValue()));
-
-		return cost.setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
+	public boolean hasDestination(Destination dest) {
+		return this.dest == dest;
 	}
 
 }
