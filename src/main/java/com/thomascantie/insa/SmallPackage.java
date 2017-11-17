@@ -7,12 +7,12 @@ public class SmallPackage extends Package {
 
 	public static final double BASIC_COST = 12.00;
 
-	public SmallPackage(int height, int width, int depth, double weight, Destination dest) {
-		super(height, width, depth, weight, dest);
+	public SmallPackage(int height, int width, int depth, double weight) {
+		super(height, width, depth, weight);
 	}
 
 	@Override
-	protected double calculateLocalShippingCost() {
+	public double calculateLocalShippingCost() {
 		return BASIC_COST;
 	}
 }

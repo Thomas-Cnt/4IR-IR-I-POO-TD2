@@ -11,13 +11,13 @@ public class MediumPackage extends Package {
 
 	private double weightFlatRate;
 
-	public MediumPackage(int height, int width, int depth, double weight, Destination dest) {
-		super(height, width, depth, weight, dest);
+	public MediumPackage(int height, int width, int depth, double weight) {
+		super(height, width, depth, weight);
 		this.weightFlatRate = UNIT_WEIGHT_COST * weight;
 	}
 
 	@Override
-	protected double calculateLocalShippingCost() {
+	public double calculateLocalShippingCost() {
 		return this.weightFlatRate + FIXED_COSTS;
 	}
 

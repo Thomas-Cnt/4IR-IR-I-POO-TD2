@@ -12,14 +12,14 @@ public class BigPackage extends Package {
 	private double weightFlatRate;
 	private double volumeFlatRate;
 
-	public BigPackage(int height, int width, int depth, double weight, Destination dest) {
-		super(height, width, depth, weight, dest);
+	public BigPackage(int height, int width, int depth, double weight) {
+		super(height, width, depth, weight);
 		this.weightFlatRate = UNIT_WEIGHT_COST * weight;
 		this.volumeFlatRate = UNIT_VOLUME_COST * height * width * depth / Math.pow(100.0, 3);
 	}
 
 	@Override
-	protected double calculateLocalShippingCost() {
+	public double calculateLocalShippingCost() {
 		return new BigDecimal(Math.max(this.weightFlatRate, this.volumeFlatRate))
 				.setScale(2, BigDecimal.ROUND_HALF_EVEN)
 				.doubleValue();
