@@ -1,5 +1,6 @@
 package com.thomascantie.insa;
 
+import com.sun.javafx.css.CalculatedValue;
 import org.junit.Test;
 import org.mockito.InOrder;
 
@@ -19,57 +20,60 @@ public class TestRunnerInteractions {
 	@Test
 	public void When_calculate_shipping_cost() {
 		Package pack = mock(Package.class);
+		ShippingCostsCalculator calculator = mock(ShippingCostsCalculator.class);
 		PackageFactory factory = mock(PackageFactory.class);
 
-		when(factory.createPackage(HEIGHT, WIDTH, DEPTH, WEIGHT, DOM_TOM)).thenReturn(pack);
+		when(factory.createPackage(HEIGHT, WIDTH, DEPTH, WEIGHT)).thenReturn(pack);
 
 		String info = "yes\nDOM/TOM\n191\n123\n18\n2.354\nyes\nno\n";
 		System.setIn(new ByteArrayInputStream(info.getBytes()));
 
-		new Runner(factory).run();
+		new Runner(factory, calculator).run();
 
-		InOrder inOrder = inOrder(factory, pack, pack, pack);
+		InOrder inOrder = inOrder(factory, calculator);
 
-		inOrder.verify(factory).createPackage(HEIGHT, WIDTH, DEPTH, WEIGHT, DOM_TOM);
-		inOrder.verify(pack).calculateShippingCost();
+		inOrder.verify(factory).createPackage(HEIGHT, WIDTH, DEPTH, WEIGHT);
+		inOrder.verify(calculator).calculateShippingCost(pack, Destination.valueOf(DOM_TOM));
 		inOrder.verifyNoMoreInteractions();
 	}
 
 	@Test
 	public void When_calculate_shipping_cost_aborded() {
 		Package pack = mock(Package.class);
+		ShippingCostsCalculator calculator = mock(ShippingCostsCalculator.class);
 		PackageFactory factory = mock(PackageFactory.class);
 
-		when(factory.createPackage(HEIGHT, WIDTH, DEPTH, WEIGHT, DOM_TOM)).thenReturn(pack);
+		when(factory.createPackage(HEIGHT, WIDTH, DEPTH, WEIGHT)).thenReturn(pack);
 
 		String info = "yes\nquit\nno\n";
 		System.setIn(new ByteArrayInputStream(info.getBytes()));
 
-		new Runner(factory).run();
+		new Runner(factory, calculator).run();
 
-		InOrder inOrder = inOrder(factory, pack);
+		InOrder inOrder = inOrder(factory, calculator);
 
-		inOrder.verify(factory, never()).createPackage(anyInt(), anyInt(), anyInt(), anyDouble(), anyString());
-		inOrder.verify(pack, never()).calculateShippingCost();
+		inOrder.verify(factory, never()).createPackage(HEIGHT, WIDTH, DEPTH, WEIGHT);
+		inOrder.verify(calculator, never()).calculateShippingCost(pack, Destination.valueOf(DOM_TOM));
 		inOrder.verifyNoMoreInteractions();
 	}
 
 	@Test
 	public void When_calculate_shipping_cost_with_unvalid_information() {
 		Package pack = mock(Package.class);
+		ShippingCostsCalculator calculator = mock(ShippingCostsCalculator.class);
 		PackageFactory factory = mock(PackageFactory.class);
 
-		when(factory.createPackage(HEIGHT, WIDTH, DEPTH, WEIGHT, DOM_TOM)).thenReturn(pack);
+		when(factory.createPackage(HEIGHT, WIDTH, DEPTH, WEIGHT)).thenReturn(pack);
 
 		String info = "yes\nDOM/TOM\n191\n123\n18\n2.354\nno\nquit\nno\n";
 		System.setIn(new ByteArrayInputStream(info.getBytes()));
 
-		new Runner(factory).run();
+		new Runner(factory, calculator).run();
 
-		InOrder inOrder = inOrder(factory, pack);
+		InOrder inOrder = inOrder(factory, calculator);
 
-		inOrder.verify(factory).createPackage(anyInt(), anyInt(), anyInt(), anyDouble(), anyString());
-		inOrder.verify(pack, never()).calculateShippingCost();
+		inOrder.verify(factory).createPackage(HEIGHT, WIDTH, DEPTH, WEIGHT);
+		inOrder.verify(calculator, never()).calculateShippingCost(pack, Destination.valueOf(DOM_TOM));
 		inOrder.verifyNoMoreInteractions();
 	}
 
