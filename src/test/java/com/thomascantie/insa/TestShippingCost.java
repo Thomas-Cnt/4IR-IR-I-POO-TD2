@@ -33,7 +33,9 @@ public class TestShippingCost {
 
 	@Test
 	public void isValidShippingCost() {
-		final double result = PackageFactory.getInstance().createPackage(height, width, depth, weight, dest).calculateShippingCost();
+		Package pack = PackageFactory.getInstance().createPackage(height, width, depth, weight);
+		final double result = ShippingCostsCalculator.getInstance().calculateShippingCost(pack, Destination.valueOf(dest));
+
 		assertThat(result).isEqualTo(Double.parseDouble(cost));
 	}
 

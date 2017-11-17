@@ -6,9 +6,11 @@ import java.util.Scanner;
 public class Runner {
 
 	private PackageFactory factory;
+	private ShippingCostsCalculator calculator;
 
-	public Runner(PackageFactory factory) {
+	public Runner(PackageFactory factory, ShippingCostsCalculator calculator) {
 		this.factory = factory;
+		this.calculator = calculator;
 	}
 
 	public void run() {
@@ -33,12 +35,12 @@ public class Runner {
 					String check;
 					Package pack = null;
 					boolean quit = false;
+					String destination;
 
 					do {
 
 						System.out.println("\nPlease fill in the information of your package. Enter \"quit\" to abord the execution.\n");
 
-						String destination;
 						do {
 							System.out.print("- destination ( FR | MC | DOM/TOM ) : ");
 							destination = sc.nextLine().toUpperCase().trim();
@@ -103,7 +105,7 @@ public class Runner {
 
 						double weight = Double.parseDouble(sWeight);
 
-						pack = this.factory.createPackage(height, width, depth, weight, destination);
+						pack = this.factory.createPackage(height, width, depth, weight);
 						System.out.println("\nLet's check those information.");
 						System.out.println(pack);
 						System.out.print("\nAre those information correct ? (yes/no) : ");
@@ -124,7 +126,9 @@ public class Runner {
 						}
 					}
 
-					BigDecimal shippingCost = new BigDecimal(pack.calculateShippingCost()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+					BigDecimal shippingCost = new BigDecimal(
+							this.calculator.calculateShippingCost(pack, Destination.valueOf(destination)))
+									.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 
 					System.out.printf("\nFor shipping this package, the shipping costs amount %.2f €\n", shippingCost.doubleValue());
 
