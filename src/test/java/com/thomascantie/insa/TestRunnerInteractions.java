@@ -1,21 +1,19 @@
 package com.thomascantie.insa;
 
-import com.sun.javafx.css.CalculatedValue;
 import org.junit.Test;
 import org.mockito.InOrder;
 
 import java.io.ByteArrayInputStream;
 
-import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 public class TestRunnerInteractions {
 
-	public static final int HEIGHT = 191;
-	public static final int WIDTH = 123;
-	public static final int DEPTH = 18;
-	public static final double WEIGHT = 2.354;
-	public static final String DOM_TOM = "DOM_TOM";
+	private static final int HEIGHT = 191;
+	private static final int WIDTH = 123;
+	private static final int DEPTH = 18;
+	private static final double WEIGHT = 2.354;
+	private static final String DOM_TOM = "DOM_TOM";
 
 	@Test
 	public void When_calculate_shipping_cost() {
