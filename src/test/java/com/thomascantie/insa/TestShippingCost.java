@@ -4,12 +4,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static com.thomascantie.insa.Destination.FR;
-import static com.thomascantie.insa.Destination.MC;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
