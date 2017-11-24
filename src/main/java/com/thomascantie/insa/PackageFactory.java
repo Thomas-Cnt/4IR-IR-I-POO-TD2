@@ -1,7 +1,17 @@
 package com.thomascantie.insa;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class PackageFactory {
 
+	private static final int FIRST_LIMIT = 25;
+	private static final int SECOND_LIMIT = 162;
+	private static final int THIRD_LIMIT = 229;
+	private static final double WEIGHT_LIMIT = 1.8;
+	
 	private static PackageFactory instance;
 
 	private PackageFactory() {
@@ -19,7 +29,7 @@ public class PackageFactory {
 		if (hasLittleDimensions(height, width, depth))
 			return new SmallPackage(height, width, depth, weight);
 
-		if (weight <= 1.8)
+		if (weight <= WEIGHT_LIMIT)
 			return new MediumPackage(height, width, depth, weight);
 
 		return new BigPackage(height, width, depth, weight);
@@ -27,15 +37,11 @@ public class PackageFactory {
 	}
 
 	private boolean hasLittleDimensions(int h, int w, int d) {
-
-		if (h <= 229 && w <= 162 && d <= 25
-			|| h <= 229 && d <= 162 && w <= 25
-			|| w <= 229 && h <= 162 && d <= 25
-			|| w <= 229 && d <= 162 && h <= 25
-			|| d <= 229 && h <= 162 && w <= 25
-			|| d <= 229 && w <= 162 && h <= 25)
-			return true;
-		return false;
+		List<Integer> dimensions = Arrays.asList(h, w, d);
+		Collections.sort(dimensions);
+		return dimensions.get(0) <= FIRST_LIMIT &&
+				dimensions.get(1) <= SECOND_LIMIT &&
+				dimensions.get(2) <= THIRD_LIMIT;
 	}
 
 
